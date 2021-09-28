@@ -1,4 +1,4 @@
-import random
+from random import randint
 
 
 def check_size():
@@ -11,15 +11,13 @@ def check_size():
             break
         except ValueError:
             print("Please enter an integer positive number")
-
     return matrix_size
 
 
-def input_data(matrix):
+def input_number(matrix_size):
     while True:
         try:
-            matrix_size = check_size()
-            print("Your matrix is: ")
+            matrix = []
             for i in range(matrix_size):
                 elements = []
                 for j in range(matrix_size):
@@ -28,10 +26,17 @@ def input_data(matrix):
             break
         except ValueError:
             print("Please enter an integer number")
-    return matrix_size
+    return matrix
 
 
-def random_input(matrix, matrix_size):
+def create_matrix():
+    print("Your matrix is: ")
+    matrix_size = check_size()
+    matrix = input_number(matrix_size)
+    return matrix_size, matrix
+
+
+def segment():
     while True:
         try:
             a = int(input('Enter the first space item: '))
@@ -42,11 +47,16 @@ def random_input(matrix, matrix_size):
             break
         except ValueError:
             print("Please enter an integer number")
+    return a, b
+
+
+def random_input(matrix, matrix_size, a, b):
     for i in range(matrix_size):
         arr = []
         for j in range(matrix_size):
-            arr.append(random.randint(a, b))
+            arr.append(randint(a, b))
         matrix.append(arr)
+    return arr
 
 
 def print_matrix(matrix, matrix_size):
@@ -57,25 +67,22 @@ def print_matrix(matrix, matrix_size):
 
 
 def sort_bubble(array, size):
-    swap_value = 0
     quantity = 0
-    exit = False
-    while not exit:
-        exit = True
-        for i in range(size):
-            for j in range(size - 1):
-                if array[i][j] > array[i][j + 1]:
+    for i in range(size):
+        for j in range(size):
+            m, n = i, j + 1
+            while True:
+                if n == size:
+                    n = 0
+                    m += 1
+                    if m == size:
+                        break
+                if array[i][j] > array[m][n]:
                     swap_value = array[i][j]
-                    array[i][j] = array[i][j + 1]
-                    array[i][j + 1] = swap_value
+                    array[i][j] = array[m][n]
+                    array[m][n] = swap_value
                     quantity += 1
-                    exit = False
-                if i != size - 1 and j == size - 2:
-                    if array[i][j + 1] > array[i + 1][0]:
-                        swap_value = array[i][j + 1]
-                        array[i][j + 1] = array[i + 1][0]
-                        array[i + 1][0] = swap_value
-                        quantity += 1
+                n += 1
     print("Amount of operations to sort matrix: ", quantity)
 
 
@@ -86,7 +93,7 @@ def find_index(matrix, item):
         middle = (lowest_to_find + highest_to_find) // 2
         mid_val = matrix[middle]
         if item > mid_val:
-            lowest_to_find = + 1
+            lowest_to_find = middle + 1
         else:
             highest_to_find = middle
     return lowest_to_find
@@ -95,13 +102,12 @@ def find_index(matrix, item):
 def binary_search(matrix, element):
     goal = [row[-1] for row in matrix]
     index1 = find_index(goal, element)
+    search = False
     if index1 != len(goal):
         row = matrix[index1]
         index2 = find_index(row, element)
         if index2 != len(row) and row[index2] == element:
             search = True
-        else:
-            search = False
     if search:
         print("Firstly we found ", element, 'in', " ( ", index1, index2, " )")
     if not search:
@@ -110,40 +116,35 @@ def binary_search(matrix, element):
 
 def choice():
     while True:
-            try:
+        try:
+                matrix = []
                 print("Choose what you want:\n"
                       "1 - input matrix by yourself, see it and do binary search\n"
                       "2 - generate matrix, see it and do binary search\n"
                       "3 - exit \n")
-                what_chosed = int(input(""))
-                if what_chosed == 1:
-                    matrix = []
-                    matrix_size = input_data(matrix)
-                    print_matrix(matrix, matrix_size)
-                    sort_bubble(matrix, matrix_size)
-                    print_matrix(matrix, matrix_size)
-                    element = int(input('Input an element you want to find:'))
-                    binary_search(matrix, element)
-                    continue
-                elif what_chosed == 2:
-                    matrix = []
+                what_chosen = int(input(""))
+                if what_chosen == 1:
+                    matrix_size, matrix = create_matrix()
+                elif what_chosen == 2:
                     matrix_size = check_size()
-                    random_input(matrix, matrix_size)
-                    print_matrix(matrix, matrix_size)
-                    sort_bubble(matrix, matrix_size)
-                    print_matrix(matrix, matrix_size)
-                    element = int(input('Input an element you want to find:'))
-                    binary_search(matrix, element)
-                    continue
-                elif what_chosed == 3:
+                    a, b = segment()
+                    random_input(matrix, matrix_size, a, b)
+                elif what_chosen == 3:
                     break
-            except ValueError:
-                print("Something went wrong, enter an number you want:")
-                continue
-            except KeyboardInterrupt:
-                print("Something went wrong, enter an number you want:")
-                continue
-            break
+                else:
+                    print("Enter right option")
+                    continue
+                do(matrix, matrix_size)
+        except ValueError:
+            print("Something went wrong, enter an number you want:")
+      
+
+def do(matrix, matrix_size):
+    print_matrix(matrix, matrix_size)
+    sort_bubble(matrix, matrix_size)
+    print_matrix(matrix, matrix_size)
+    element = int(input('Input an element you want to find:'))
+    binary_search(matrix, element)
 
 
 choice()
