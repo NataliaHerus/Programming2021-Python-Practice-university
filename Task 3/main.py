@@ -1,14 +1,6 @@
 from actions_with_linked_list import *
 
 
-def minimum(lst, size):
-    min_multiplication = float('inf')
-    for i in range(size - 1):
-        if int(lst[i] * lst[i + 1]) < min_multiplication:
-            min_multiplication = lst[i] * lst[i + 1]
-    return min_multiplication
-
-
 def input_item():
     item = int(input("Input element you want to insert in list:"))
     return item
@@ -53,7 +45,7 @@ def choice():
                 list.print()
             elif what_chosen == 6:
                 size = list.__len__()
-                print(minimum(list, size))
+                print(list.minimum(size))
             elif what_chosen == 7:
                 break
             else:

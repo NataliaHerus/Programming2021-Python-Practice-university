@@ -119,6 +119,13 @@ class LinkedList:
             self.head = current.next
             current = self.head
 
+    def minimum(self, size):
+        min_multiplication = float('inf')
+        for i in range(size - 1):
+            if int(self[i] * self[i + 1]) < min_multiplication:
+                min_multiplication = self[i] * self[i + 1]
+        return min_multiplication
+
     def print(self):
         text = "{"
         current = self.head
@@ -147,17 +154,16 @@ class LinkedList:
             self.append(randint(a, b))
 
     def segment(self):
-        while True:
-            try:
-                a = int(input('Enter the first space item: '))
-                b = int(input('Enter the second space item: '))
-                if b < a:
-                    print('\nThe first number should not be  bigger than the second')
-                    continue
-                break
-            except ValueError:
-                print("Please enter an integer number")
+        a = int(input('Enter the first space item: '))
+        b = int(input('Enter the second space item: '))
+        self.check_from_to(a, b)
         return a, b
+
+    def check_from_to(self, a, b):
+        while True:
+            if b < a:
+                print('\nThe first number should not be  bigger than the second')
+            break
 
     def input_list(self, list_size):
         while True:
