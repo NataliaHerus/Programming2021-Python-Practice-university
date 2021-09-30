@@ -37,17 +37,17 @@ def create_matrix():
 
 
 def segment():
-    while True:
-        try:
-            a = int(input('Enter the first space item: '))
-            b = int(input('Enter the second space item: '))
-            if b < a:
-                print('\nThe first number should not be  bigger than the second')
-                continue
-            break
-        except ValueError:
-            print("Please enter an integer number")
+    a = int(input('Enter the first space item: '))
+    b = int(input('Enter the second space item: '))
+    check_from_to(a, b)
     return a, b
+
+
+def check_from_to(a, b):
+    while True:
+        if b < a:
+            print('\nThe first number should not be  bigger than the second')
+        break
 
 
 def random_input(matrix, matrix_size, a, b):
@@ -117,27 +117,27 @@ def binary_search(matrix, element):
 def choice():
     while True:
         try:
-                matrix = []
-                print("Choose what you want:\n"
-                      "1 - input matrix by yourself, see it and do binary search\n"
-                      "2 - generate matrix, see it and do binary search\n"
-                      "3 - exit \n")
-                what_chosen = int(input(""))
-                if what_chosen == 1:
-                    matrix_size, matrix = create_matrix()
-                elif what_chosen == 2:
-                    matrix_size = check_size()
-                    a, b = segment()
-                    random_input(matrix, matrix_size, a, b)
-                elif what_chosen == 3:
-                    break
-                else:
-                    print("Enter right option")
-                    continue
-                do(matrix, matrix_size)
+            matrix = []
+            print("Choose what you want:\n"
+                  "1 - input matrix by yourself, see it and do binary search\n"
+                  "2 - generate matrix, see it and do binary search\n"
+                  "3 - exit \n")
+            what_chosen = int(input(""))
+            if what_chosen == 1:
+                matrix_size, matrix = create_matrix()
+            elif what_chosen == 2:
+                matrix_size = check_size()
+                a, b = segment()
+                random_input(matrix, matrix_size, a, b)
+            elif what_chosen == 3:
+                break
+            else:
+                print("Enter right option")
+                continue
+            do(matrix, matrix_size)
         except ValueError:
             print("Something went wrong, enter an number you want:")
-      
+
 
 def do(matrix, matrix_size):
     print_matrix(matrix, matrix_size)
